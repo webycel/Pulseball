@@ -7,6 +7,6 @@
 - `npm install`
 - `bower install`
 
-To run locally runt `grunt`
+To run locally run `grunt`
 
 To make a build run `grunt publish`
