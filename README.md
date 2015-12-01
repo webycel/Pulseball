@@ -3,14 +3,14 @@
 ## How to install
 
 ```
-$>  git clone https://github.com/webycel/Pulseball.git
-$>  cd Pulseball
-$>  npm install
-$>  bower install
+>  git clone https://github.com/webycel/Pulseball.git
+>  cd Pulseball
+>  npm install
+>  bower install
 ```
 
 ## How to run
-To run Pulseball on your local server use `grunt`
+To run Pulseball on your local use `grunt`
 
 To make a build run `grunt publish`
 
