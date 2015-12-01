@@ -8550,11 +8550,21 @@ header {
 }
 
 .add-match {
-  margin-top: 1.5em;
+  margin-top: 1.75em;
 }
 .add-match .submit-match {
   margin-top: 1.5em;
 }
 .add-match .submit-match .button {
   background-color: rgba(0, 137, 182, 0.65);
+}
+
+.matches {
+  margin-top: 1.75em;
+}
+.matches ul {
+  padding: 0;
+  list-style: none;
+  color: #FFFFFF;
+  text-align: center;
 }

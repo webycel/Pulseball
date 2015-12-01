@@ -7,7 +7,9 @@ var PULSEBALL = (function(document, $) {
 		$addMatchFormHome = $addMatchForm.find('#homeTeam'),
 		$addMatchFormAway = $addMatchForm.find('#awayTeam'),
 		$addMatchFormErrors = $addMatchForm.find('.errors'),
-		ranking;
+		$matches = $('#matches'),
+		ranking,
+		matches = [];
 
 	function roundNumber(num) {
 		return Math.round(num * 100) / 100;
@@ -41,6 +43,16 @@ var PULSEBALL = (function(document, $) {
 						);
 
 			$tableBody.append($row);
+		}
+	}
+
+	function updatePlayedMatches() {
+		var $match,
+			lastMatch = matches[matches.length - 1];
+
+		if (lastMatch.status === 'C') {
+			$match = '<li>' + lastMatch.teams[0].name + ' ' + lastMatch.scores[0] + ' - ' + lastMatch.scores[1] + ' ' + lastMatch.teams[1].name + '<li>';
+			$matches.prepend($match);
 		}
 	}
 
@@ -163,6 +175,8 @@ var PULSEBALL = (function(document, $) {
 			pointsDifference = getRatingDifference(homeTeam, awayTeam),
 			pointsGained;
 
+		matches.push(match);
+
 		if (match.outcome === 'A') { // home team wins
 			pointsGained = 1 - (pointsDifference / 10);
 			homeTeam.pts = roundNumber(homeTeam.pts + pointsGained);
@@ -178,6 +192,7 @@ var PULSEBALL = (function(document, $) {
 		}
 
 		updateTable();
+		updatePlayedMatches();
 	}
 
 	function init(rankingsJson) {
@@ -203,5 +218,5 @@ var PULSEBALL = (function(document, $) {
 	var match = '{"matchId": 2524, "description": "Match 2", "venue": {"id": 900,"name": "Stadium", "city": "Paris", "country": "France"}, "teams": [{"id": 2,"name": "France","abbreviation": "FRA" },{"id": 1,"name": "England", "abbreviation": "ENG"} ],"scores": [ 19,23 ],"status": "C","outcome": "B" }';
 
 	PULSEBALL.init(rankingsJson);
-	// PULSEBALL.addMatch(match);
+	PULSEBALL.addMatch(match);
 })();
