@@ -8507,3 +8507,54 @@ th.hide-for-touch {
   }
 }
 /* all app scss styles here */
+body {
+  background: url("/images/bg.jpg") top center no-repeat;
+  background-size: cover;
+}
+
+h1, h2, h3, h4 {
+  color: #FFFFFF;
+}
+
+header {
+  padding: 2.5em 0;
+  text-align: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.ranking {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.65);
+}
+.ranking thead {
+  background-color: rgba(245, 245, 245, 0.75);
+}
+.ranking tr:nth-of-type(even) {
+  background-color: rgba(245, 245, 245, 0.5);
+}
+.ranking td {
+  color: #000000;
+  font-size: 1.1em;
+}
+.ranking td.up {
+  color: #43AC6A;
+}
+.ranking td.down {
+  color: #f04124;
+}
+.ranking .centered {
+  text-align: center;
+}
+
+.add-match {
+  margin-top: 1.5em;
+}
+.add-match .submit-match {
+  margin-top: 1.5em;
+}
+.add-match .submit-match .button {
+  background-color: rgba(0, 137, 182, 0.65);
+}
