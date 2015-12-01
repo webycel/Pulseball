@@ -4,11 +4,11 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
-
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         app: 'app',
         dist: 'dist',
+        test: 'test',
 
         sass: {
             dist: {
@@ -43,6 +43,12 @@ module.exports = function(grunt) {
                 'Gruntfile.js',
                 '<%= app %>/js/**/*.js'
             ]
+        },
+
+        karma: {
+            unit: {
+                configFile: '<%= test %>/karma.conf.js'
+            }
         },
 
         clean: {
@@ -154,5 +160,7 @@ module.exports = function(grunt) {
     grunt.registerTask('validate-js', ['jshint']);
     grunt.registerTask('server-dist', ['connect:dist']);
     grunt.registerTask('publish', ['compile-sass', 'clean:dist', 'validate-js', 'useminPrepare', 'copy:dist', 'newer:imagemin', 'concat', 'cssmin', 'uglify', 'usemin']);
+
+    grunt.loadNpmTasks('grunt-karma');
 
 };

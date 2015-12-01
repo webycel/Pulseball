@@ -10,3 +10,5 @@
 To run locally run `grunt`
 
 To make a build run `grunt publish`
+
+To run a unit test run `grunt karma`
