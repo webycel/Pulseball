@@ -18,34 +18,70 @@
   </head>
   <body>
 
+    <header class="row">
+      <div class="small-12 small-centered columns">
+        <h1>PULSEBALL</h1>
+      </div>
+    </header>
+
     <div class="row">
-      <div class="small-12 small-centered medium-10 medium-centered columns">
-        <table id="table">
+      <div class="small-12 small-centered medium-6 medium-centered columns">
+        <table id="table" class="ranking">
             <thead>
-                <th>Pos</th>
+                <th width="30"></th>
+                <th width="35" class="centered">Pos</th>
                 <th>Team</th>
                 <th>Points</th>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>France</td>
-                    <td>43.22</td>
-                </tr>
-            </tbody>
+            <tbody></tbody>
         </table>
       </div>
+    </div>
+
+    <div class="row">
+        <form id="add-match" class="add-match small-12 small-centered medium-6 medium-centered columns">
+
+            <h3>Add match</h3>
+
+            <h4>Teams</h4>
+            <div class="row">
+                <div class="small-12 small-centered medium-6 medium-uncentered columns">
+                    <select id="homeTeam" name="homeTeam"></select>
+                </div>
+                <div class="small-12 small-centered medium-6 medium-uncentered columns">
+                    <select id="awayTeam" name="awayTeam"></select>
+                </div>
+            </div>
+
+            <h4>Score</h4>
+            <div class="row">
+                <div class="small-12 small-centered medium-3 medium-offset-3 medium-uncentered columns">
+                    <input id="homeTeamScore" name="homeTeamScore" value="0" type="number" />
+                </div>
+                <div class="small-12 small-centered medium-3 medium-uncentered columns">
+                    <input id="awayTeamScore" name="awayTeamScore" value="0" type="number" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="submit-match small-12 small-centered columns">
+                    <div class="alert-box alert errors hidden"></div>
+                    <button id="submit-match" class="button expand">Submit match</button>
+                </div>
+            </div>
+
+        </form>
     </div>
 
     <!-- build:js js/vendor/libraries.min.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/fastclick/lib/fastclick.js"></script>
-    <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+    <!-- <script src="bower_components/jquery.cookie/jquery.cookie.js"></script> -->
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js js/vendor/foundation.min.js -->
-    <script src="bower_components/foundation/js/foundation/foundation.js"></script>
+    <!-- <script src="bower_components/foundation/js/foundation/foundation.js"></script> -->
     <!-- endbuild -->
     <!-- build:js js/app.min.js -->
     <script src="js/app.js"></script>

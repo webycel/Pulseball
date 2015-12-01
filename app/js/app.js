@@ -3,6 +3,10 @@
 var PULSEBALL = (function(document, $) {
 
 	var $table = $('#table'),
+		$addMatchForm = $('#add-match'),
+		$addMatchFormHome = $addMatchForm.find('#homeTeam'),
+		$addMatchFormAway = $addMatchForm.find('#awayTeam'),
+		$addMatchFormErrors = $addMatchForm.find('.errors'),
 		ranking;
 
 	function roundNumber(num) {
@@ -11,16 +15,44 @@ var PULSEBALL = (function(document, $) {
 
 	function updateTable() {
 		var $tableBody = $table.find('tbody'),
-			i, row;
+			posChange = "-",
+			elemClass = "",
+			i, $row;
 
 		$tableBody.html(''); // reset table
 
 		sortRankingByPoints();
 
 		for (i in ranking) {
-			row = '<tr><td>' + ranking[i].pos + '</td><td>' + ranking[i].team.name + '</td><td>' + ranking[i].pts + '</td></tr>';
-			$tableBody.append(row);
+			if (ranking[i].pos < ranking[i].prevPos) {
+				posChange = "↑";
+				elemClass = "up";
+			} else if (ranking[i].pos > ranking[i].prevPos) {
+				posChange = "↓";
+				elemClass = "down";
+			}
+
+			$row = $('<tr></tr>')
+						.append(
+							'<td class="centered ' + elemClass + '" title="' + ranking[i].prevPos + '">' + posChange + '</td>'
+						  + '<td class="centered">' + ranking[i].pos + '</td>'
+					      + '<td>' + ranking[i].team.name + '</td>'
+						  + '<td>' + ranking[i].pts + '</td>'
+						);
+
+			$tableBody.append($row);
 		}
+	}
+
+	function populateAddMatch() {
+		var options = '<option value="-1">Please choose</option>';
+
+		for (var t in ranking) {
+			options += '<option value="' + ranking[t].team.id + '">' + ranking[t].team.name + '</option>';
+		}
+
+		$addMatchFormHome.html(options);
+		$addMatchFormAway.html(options);
 	}
 
 	function sortRankingByPoints() {
@@ -65,6 +97,64 @@ var PULSEBALL = (function(document, $) {
 		return (diff);
 	}
 
+	function submitMatch(event) {
+		event.preventDefault();
+
+		var homeTeam = parseInt($('#homeTeam').val()),
+			awayTeam = parseInt($('#awayTeam').val()),
+			homeTeamScore = $('#homeTeamScore').val(),
+			awayTeamScore = $('#awayTeamScore').val();
+
+		$addMatchFormErrors.html('').addClass('hidden');
+
+		if (homeTeam === -1 || awayTeam === -1) {
+			$addMatchFormErrors.html('Please select a valid team.').removeClass('hidden');
+		} else if (homeTeam === awayTeam) {
+			$addMatchFormErrors.html('A team can\'t play against themself, duh.').removeClass('hidden');
+		} else if (homeTeamScore === "" || awayTeamScore === "") {
+			$addMatchFormErrors.html('Please enter a valid score.').removeClass('hidden');
+		} else {
+			addMatch(buildMatchString(getTeam(homeTeam).team, getTeam(awayTeam).team, homeTeamScore, awayTeamScore));
+		}
+	}
+
+	function buildMatchString(homeTeam, awayTeam, scoreHome, scoreAway) {
+		var match = {
+			matchID: 1234,
+			description: "Match 3",
+			venue: {
+				id: 15000,
+				name: "Voith Arena",
+				city: "Heidenheim",
+				country: "Germany"
+			},
+			teams: [
+				{
+					id: homeTeam.id,
+					name: homeTeam.name
+				},
+				{
+					id: awayTeam.id,
+					name: awayTeam.name
+				}
+			],
+			scores: [scoreHome, scoreAway],
+			status: "C",
+			outcome: getWinner(scoreHome, scoreAway)
+		};
+
+		return JSON.stringify(match);
+	}
+
+	function getWinner(a, b) {
+		if (a > b) {
+			return "A";
+		} else if (a < b) {
+			return "B";
+		}
+		return "D";
+	}
+
 	function addMatch(match) {
 		match = JSON.parse(match);
 
@@ -93,7 +183,11 @@ var PULSEBALL = (function(document, $) {
 	function init(rankingsJson) {
 		if (rankingsJson) {
 			ranking = JSON.parse(rankingsJson);
+
 			updateTable();
+			populateAddMatch();
+
+			$(document).on('click', '#submit-match', submitMatch);
 		}
 	}
 
@@ -109,5 +203,5 @@ var PULSEBALL = (function(document, $) {
 	var match = '{"matchId": 2524, "description": "Match 2", "venue": {"id": 900,"name": "Stadium", "city": "Paris", "country": "France"}, "teams": [{"id": 2,"name": "France","abbreviation": "FRA" },{"id": 1,"name": "England", "abbreviation": "ENG"} ],"scores": [ 19,23 ],"status": "C","outcome": "B" }';
 
 	PULSEBALL.init(rankingsJson);
-	PULSEBALL.addMatch(match);
+	// PULSEBALL.addMatch(match);
 })();
